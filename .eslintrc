@@ -1,0 +1,17 @@
+{
+  "root": true,
+  "plugins": ["prettier"],
+  "extends": ["plugin:github/recommended"],
+  "rules": {
+    "prettier/prettier": "error",
+    "filenames/match-regex": "off"
+  },
+  "env": {
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  }
+}
