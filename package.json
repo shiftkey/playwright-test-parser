@@ -8,6 +8,7 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "jest"
   },
+  "bin": "cli/index.js",
   "dependencies": {
     "yargs": "^17.1.1"
   },
