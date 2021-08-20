@@ -1,108 +1,49 @@
-// const fs = require('fs')
+const { existsSync } = require('fs')
+const { resolve } = require('path')
 
-// TODO: config so we can pass this file in somehow
-// const text = fs.readFileSync('results.json', { encoding: 'utf8' })
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
 
-// type Status = "passed" | "failed";
+const { slowestTests } = require('./lib/test-comparer')
 
-// type Result = {
-//   status: Status;
-//   duration: number;
-// };
+yargs(hideBin(process.argv)).command(
+  'slow [file] [--count=5]',
+  'list slow tests found in test run',
+  (y) => {
+    return y
+      .positional('file', {
+        describe: 'JSON file from Playwright test run',
+        demandOption: true,
+        type: 'string',
+      })
+      .option('count', {
+        type: 'number',
+        describe: 'Number of tests to output',
+        demandOption: false,
+        default: 5,
+      })
+      .option('format', {
+        type: 'string',
+        describe: 'Whether to output the files',
+        demandOption: false,
+        default: 'stdout',
+      })
+  },
+  (argv) => {
+    const fullPath = resolve(argv.file)
 
-// type Test = {
-//   projectName: string;
-//   results: Array<Result>;
-// };
+    if (!existsSync(fullPath)) {
+      // eslint-disable-next-line no-console
+      console.warn(`File '${fullPath}' does not exist on disk`)
+      process.exit(1)
+    }
 
-// type Spec = {
-//   title: string;
-//   tests: Array<Test>;
-//   line: number;
-// };
-
-// type Suite = {
-//   specs: Array<Spec>;
-//   line: number;
-//   title: string;
-//   file: string;
-// };
-
-// type SuiteWithChildSuites = Suite & { suites?: Array<Suite> };
-
-// type JsonFileContents = {
-//   // suites can be recursively defined, lol
-//   suites: Array<SuiteWithChildSuites>;
-// };
-
-// type TestWithResult = {
-//   file: string;
-//   specTitle: string;
-//   testTitle: string;
-//   lineNumber: number;
-//   status: Status;
-//   duration: number;
-// };
-
-// /** @type {suites: Array<SuiteWithChildSuites>} */
-// const obj = JSON.parse(text);
-
-// function slowestTestsFirst(a: TestWithResult, b: TestWithResult) {
-//   if (a.duration === b.duration) {
-//     return 0;
-//   }
-//   return a.duration > b.duration ? -1 : 1;
-// }
-
-// const sortedTests = getAllTests(obj.suites).sort(slowestTestsFirst);
-
-// const topTen = sortedTests.slice(0, 10);
-
-// console.log(`tests:`, topTen);
-
-// function getAllTests(suites: Array<SuiteWithChildSuites>) {
-//   return suites.flatMap((s) => getTests(s.file, s.title, s));
-// }
-
-// function toTestResult(
-//   t: Test,
-//   file: string,
-//   specTitle: string,
-//   testTitle: string,
-//   lineNumber: number
-// ): Array<TestWithResult> {
-//   return t.results.map((r) => ({
-//     file,
-//     specTitle,
-//     testTitle,
-//     lineNumber,
-//     duration: r.duration,
-//     status: r.status,
-//   }));
-// }
-
-// function getTests(
-//   filename: string,
-//   specsTitle: string,
-//   suite: SuiteWithChildSuites
-// ): Array<TestWithResult> {
-//   const tests = new Array<TestWithResult>();
-//   for (const spec of suite.specs) {
-//     const testTitle = spec.title;
-//     const lineNumber = spec.line;
-//     tests.push(
-//       ...spec.tests.flatMap((t) =>
-//         toTestResult(t, filename, specsTitle, testTitle, lineNumber)
-//       )
-//     );
-//   }
-
-//   if (suite.suites)
-//     for (const s of suite.suites) {
-//       const innerSpecTitle = `${specsTitle} > ${s.title}`;
-//       const additionalTests = getTests(filename, innerSpecTitle, s);
-//       tests.push(...additionalTests);
-//     }
-
-//   return tests;
-// }
+    const slowTests = slowestTests(fullPath, argv.count)
+    for (const test of slowTests) {
+      // eslint-disable-next-line no-console
+      console.log(
+        `${test.file}:${test.lineNumber} - ${test.specTitle} > ${test.testTitle} (${test.duration}ms)`
+      )
+    }
+  }
+).argv

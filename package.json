@@ -8,6 +8,9 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "jest"
   },
+  "dependencies": {
+    "yargs": "^17.1.1"
+  },
   "devDependencies": {
     "@types/node": "^16.6.2",
     "@types/jest": "^27.0.1",
