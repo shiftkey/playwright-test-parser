@@ -1,0 +1,7 @@
+.vscode/
+.github/
+.eslint*
+.prettierrc
+test/
+tsconfig.json
+*.tgz
