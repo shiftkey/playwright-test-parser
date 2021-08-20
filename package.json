@@ -28,6 +28,9 @@
       "main"
     ]
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT"
