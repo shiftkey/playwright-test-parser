@@ -23,6 +23,11 @@
     "semantic-release": "^17.4.5",
     "typescript": "^4.3.5"
   },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "MIT"
