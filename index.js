@@ -1,8 +1,7 @@
-// eslint-disable-next-line import/no-commonjs
-const fs = require('fs')
+// const fs = require('fs')
 
 // TODO: config so we can pass this file in somehow
-const text = fs.readFileSync('results.json', { encoding: 'utf8' })
+// const text = fs.readFileSync('results.json', { encoding: 'utf8' })
 
 // type Status = "passed" | "failed";
 
