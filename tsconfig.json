@@ -2,7 +2,7 @@
   "compilerOptions": {
     "checkJs": true,
     "noEmit": true,
-    "types": [ "node", "jest"]
+    "types": ["node", "jest"]
   },
-  "include": ["*.js"]
+  "include": ["lib/*.js", "cli/*.js", "test/*.js"]
 }

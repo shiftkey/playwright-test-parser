@@ -6,7 +6,7 @@ const { resolve } = require('path')
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 
-const { slowestTests } = require('./lib/test-comparer')
+const { slowestTests } = require('../lib/test-comparer')
 
 yargs(hideBin(process.argv)).command(
   'slow [file] [--count=5]',
