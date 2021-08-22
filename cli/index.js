@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
-const { existsSync } = require('fs')
+/** @typedef {"passed" | "failed"} Status */
+/** @typedef {{ status: Status, duration: number }} Result */
+/** @typedef {{ projectName: string, results: Array<Result> }} Test */
+/** @typedef {{ title: string, tests: Array<Test>, line: number }} Spec */
+/** @typedef {{ specs: Array<Spec>, line: number, title: string, file: string }} Suite */
+/** @typedef {Suite & { suites?: Array<Suite> }} SuiteWithChildSuites */
+/** @typedef {{ suites : Array<SuiteWithChildSuites> }} JsonFileContents */
+
+const { existsSync, readFileSync } = require('fs')
 const { resolve } = require('path')
 
 const yargs = require('yargs/yargs')
@@ -40,7 +48,10 @@ yargs(hideBin(process.argv)).command(
       process.exit(1)
     }
 
-    const slowTests = slowestTests(fullPath, argv.count)
+    const text = readFileSync(fullPath, { encoding: 'utf8' })
+    const json = JSON.parse(text)
+
+    const slowTests = slowestTests(json, argv.count)
     for (const test of slowTests) {
       // eslint-disable-next-line no-console
       console.log(
