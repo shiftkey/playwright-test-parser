@@ -1,13 +1,5 @@
 #!/usr/bin/env node
 
-/** @typedef {"passed" | "failed"} Status */
-/** @typedef {{ status: Status, duration: number }} Result */
-/** @typedef {{ projectName: string, results: Array<Result> }} Test */
-/** @typedef {{ title: string, tests: Array<Test>, line: number }} Spec */
-/** @typedef {{ specs: Array<Spec>, line: number, title: string, file: string }} Suite */
-/** @typedef {Suite & { suites?: Array<Suite> }} SuiteWithChildSuites */
-/** @typedef {{ suites : Array<SuiteWithChildSuites> }} JsonFileContents */
-
 const { existsSync, readFileSync } = require('fs')
 const { resolve } = require('path')
 
