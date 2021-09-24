@@ -6,7 +6,8 @@
     "check": "tsc",
     "lint": "eslint *.js test/*.js",
     "lint:fix": "npm run lint -- --fix",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "bin": "cli/index.js",
   "dependencies": {

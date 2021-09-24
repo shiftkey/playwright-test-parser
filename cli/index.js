@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { existsSync } = require('fs')
+const { existsSync, readFileSync } = require('fs')
 const { resolve } = require('path')
 
 const yargs = require('yargs/yargs')
@@ -40,7 +40,10 @@ yargs(hideBin(process.argv)).command(
       process.exit(1)
     }
 
-    const slowTests = slowestTests(fullPath, argv.count)
+    const text = readFileSync(fullPath, { encoding: 'utf8' })
+    const json = JSON.parse(text)
+
+    const slowTests = slowestTests(json, argv.count)
     for (const test of slowTests) {
       // eslint-disable-next-line no-console
       console.log(
