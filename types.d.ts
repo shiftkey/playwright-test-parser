@@ -1,10 +1,17 @@
-/** @typedef {"passed" | "failed"} Status */
-/** @typedef {{ status: Status, duration: number }} Result */
-/** @typedef {{ projectName: string, results: Array<Result> }} Test */
-/** @typedef {{ file: string, specTitle: string, testTitle: string, lineNumber: number, status: Status,  duration: number }} TestWithResult */
-/** @typedef {{ title: string, tests: Array<Test>, line: number }} Spec */
-/** @typedef {{ specs: Array<Spec>, line: number, title: string, file: string }} Suite */
-/** @typedef {Suite & { suites?: Array<Suite> }} SuiteWithChildSuites */
+type Status = 'passed' | 'failed'
+type Result = { status: Status; duration: number }
+type Test = { projectName: string; results: Array<Result> }
+type TestWithResult = {
+  file: string
+  specTitle: string
+  testTitle: string
+  lineNumber: number
+  status: Status
+  duration: number
+}
+type Spec = { title: string; tests: Array<Test>; line: number }
+type Suite = { specs: Array<Spec>; line: number; title: string; file: string }
+type SuiteWithChildSuites = Suite & { suites?: Array<Suite> }
 
 /**
  * Flatten and map the tests within a suite
