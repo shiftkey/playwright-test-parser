@@ -2,6 +2,7 @@
   "name": "@shiftkey/playwright-test-parser",
   "version": "0.0.0-development",
   "description": "",
+  "main": "index.js",
   "scripts": {
     "check": "tsc",
     "lint": "eslint *.js test/*.js",
