@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "",
   "main": "index.js",
+  "types": "types.d.ts",
   "scripts": {
     "check": "tsc",
     "lint": "eslint *.js test/*.js",
